@@ -266,15 +266,6 @@ export default function Sidebar() {
         <List>{renderMenu(menu)}</List>
       </Box>
 
-      <Box
-  sx={{
-    flex: 1,
-    overflowY: "auto",
-  }}
->
-  <List>{renderMenu(menu)}</List>
-</Box>
-
       <Divider />
 
       <Box

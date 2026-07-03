@@ -8,10 +8,8 @@ export const store = configureStore({
     auth: authReducer,
     ui: uiReducer,
   },
-
   devTools: import.meta.env.DEV,
 });
 
 export type RootState = ReturnType<typeof store.getState>;
-
 export type AppDispatch = typeof store.dispatch;
