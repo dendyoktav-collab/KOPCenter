@@ -4,22 +4,20 @@ import {
   Typography,
   Card,
   Avatar,
-  Divider,
   Button,
 } from "@mui/material";
+
 import {
   ContentCopy,
   WhatsApp,
   OpenInNew,
-  TrendingUp,
+
   AccountBalanceWallet,
   Warning,
   People,
   LocalActivity,
   School,
   VerifiedUser,
-  AccountBalance,
-  MonetizationOn
 } from "@mui/icons-material";
 import {
   AreaChart,

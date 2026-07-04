@@ -1,132 +1,130 @@
-import { useState } from "react";
-import { Box, AppBar, Toolbar, Avatar, Typography, Button, Badge } from "@mui/material";
-import { Notifications, Settings, LiveTv, Layers } from "@mui/icons-material";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import CalendarTodayRoundedIcon from "@mui/icons-material/CalendarTodayRounded";
 
-export default function Topbar() {
-  const [activeTab, setActiveTab] = useState<string>("Kontrol Likuiditas");
+import {
+  AppBar,
+  Box,
+  IconButton,
+  Stack,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 
-  const menuTabs = ["Front Office Cepat", "Kontrol Likuiditas", "Executive Insight"];
+import Greeting from "./Greeting";
+import NotificationMenu from "./NotificationMenu";
+import PageTitle from "./PageTitle";
+import ProfileMenu from "./ProfileMenu";
+
+interface TopbarProps {
+  onMenuClick?: () => void;
+}
+
+export default function Topbar({
+  onMenuClick,
+}: TopbarProps) {
+  const theme = useTheme();
+
+  const isDesktop = useMediaQuery(theme.breakpoints.up("lg"));
+
+  const today = new Intl.DateTimeFormat("id-ID", {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }).format(new Date());
 
   return (
     <AppBar
-      position="static"
+      position="sticky"
       elevation={0}
+      color="inherit"
       sx={{
-        bgcolor: "#ffffff",
-        borderBottom: "1px solid",
-        borderColor: "rgba(0, 0, 0, 0.05)",
-        color: "text.primary",
-        py: 1,
+        bgcolor: "#FFFFFF",
+        borderBottom: "1px solid #E7EDF5",
+        zIndex: (theme) => theme.zIndex.drawer + 1,
       }}
     >
-      <Toolbar sx={{ justifyContent: "space-between", px: 3, flexWrap: "wrap", gap: 2 }}>
-        
-        {/* Kiri: Tab Menu Navigasi Persis Seperti Gambar */}
-        <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-          {menuTabs.map((tab) => {
-            const isActive = activeTab === tab;
-            return (
-              <Button
-                key={tab}
-                onClick={() => setActiveTab(tab)}
-                sx={{
-                  textTransform: "none",
-                  borderRadius: 2.5,
-                  px: 2.5,
-                  py: 1,
-                  fontSize: "13px",
-                  fontWeight: isActive ? "800" : "600",
-                  color: isActive ? "#ffffff" : "#64748b",
-                  bgcolor: isActive ? "#0d1d21" : "transparent",
-                  border: isActive ? "none" : "1px solid transparent",
-                  "&:hover": {
-                    bgcolor: isActive ? "#0d1d21" : "rgba(0,0,0,0.03)",
-                  }
-                }}
-              >
-                {tab}
-              </Button>
-            );
-          })}
-        </Box>
-
-        {/* Kanan: Alat Kontrol & Status Anggota */}
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          
-          {/* Ikon Notifikasi Merah */}
-          <Badge badgeContent={14} color="error" sx={{ "& .MuiBadge-badge": { fontSize: "9px", height: "16px", minWidth: "16px" } }}>
-            <Box sx={{ p: 1, borderRadius: 2, bgcolor: "#f1f5f9", cursor: "pointer" }}>
-              <Notifications sx={{ fontSize: 20, color: "#475569" }} />
-            </Box>
-          </Badge>
-
-          {/* Ikon Streaming Langsung */}
-          <Box sx={{ p: 1, borderRadius: 2, bgcolor: "#f1f5f9", cursor: "pointer", display: "flex", alignItems: "center" }}>
-            <LiveTv sx={{ fontSize: 20, color: "#475569" }} />
-          </Box>
-
-          {/* Fitur Bimbingan Zoom */}
-          <Button
-            variant="outlined"
-            startIcon={<Layers />}
-            sx={{
-              textTransform: "none",
-              borderRadius: 3,
-              borderColor: "#e2e8f0",
-              color: "#334155",
-              fontWeight: "700",
-              fontSize: "12px",
-              px: 2,
-              py: 0.8,
-              "&:hover": { borderColor: "#cbd5e1", bgcolor: "rgba(0,0,0,0.02)" }
-            }}
-          >
-            BIMBINGAN <span style={{ color: "#f59e0b", marginLeft: "4px", fontSize: "10px", fontWeight: "900", background: "#fef3c7", padding: "2px 6px", borderRadius: "4px" }}>VIA ZOOM</span>
-          </Button>
-
-          {/* Sisa Langganan Premium */}
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1, border: "1px solid #e2e8f0", p: 0.8, borderRadius: 3, bgcolor: "#f8fafc" }}>
-            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", bgcolor: "#eff6ff", p: 0.5, borderRadius: 2 }}>
-              <Typography variant="body2" sx={{ fontSize: "14px" }}>📅</Typography>
-            </Box>
-            <Box>
-              <Typography variant="caption" sx={{ display: "block", color: "#64748b", fontWeight: "bold", fontSize: "8px", textTransform: "uppercase" }}>
-                SISA LANGGANAN
-              </Typography>
-              <Typography variant="caption" sx={{ display: "block", fontWeight: "900", color: "#1e293b", fontSize: "11px", mt: -0.2 }}>
-                67 hari tersisa
-              </Typography>
-            </Box>
-            <Button
-              variant="contained"
-              size="small"
+      <Toolbar
+        sx={{
+          minHeight: "72px !important",
+          px: {
+            xs: 2,
+            md: 3,
+          },
+        }}
+      >
+        {/* Left */}
+        <Stack
+          direction="row"
+          spacing={2}
+          alignItems="center"
+        >
+          {!isDesktop && (
+            <IconButton
+              onClick={onMenuClick}
               sx={{
-                bgcolor: "#3b82f6",
-                boxShadow: "none",
-                borderRadius: 1.5,
-                fontSize: "10px",
-                fontWeight: "800",
-                p: "4px 10px",
-                minWidth: "auto",
-                "&:hover": { bgcolor: "#2563eb", boxShadow: "none" }
+                borderRadius: 3,
               }}
             >
-              Kelola
-            </Button>
+              <MenuRoundedIcon />
+            </IconButton>
+          )}
+
+          <Box>
+            <PageTitle />
+
+            <Stack
+              direction="row"
+              spacing={0.5}
+              alignItems="center"
+              sx={{
+                mt: 0.3,
+              }}
+            >
+              <CalendarTodayRoundedIcon
+                sx={{
+                  fontSize: 13,
+                  color: "text.secondary",
+                }}
+              />
+
+              <Typography
+                variant="caption"
+                color="text.secondary"
+              >
+                {today}
+              </Typography>
+            </Stack>
+          </Box>
+        </Stack>
+
+        {/* Spacer */}
+        <Box flex={1} />
+
+        {/* Right */}
+        <Stack
+          direction="row"
+          spacing={2}
+          alignItems="center"
+        >
+          <Box
+            sx={{
+              display: {
+                xs: "none",
+                md: "block",
+              },
+              textAlign: "right",
+            }}
+          >
+            <Greeting />
           </Box>
 
-          {/* Profil User */}
-          <Avatar 
-            src="/user.jpg" 
-            sx={{ 
-              width: 36, 
-              height: 36, 
-              border: "2px solid #3b82f6",
-              cursor: "pointer" 
-            }} 
-          />
+          <NotificationMenu />
 
-        </Box>
+          <ProfileMenu />
+        </Stack>
       </Toolbar>
     </AppBar>
   );
