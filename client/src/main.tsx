@@ -7,6 +7,7 @@ import AppProviders from "./app/AppProviders";
 
 import "./styles/global.css";
 
+// Memastikan BrowserRouter membungkus seluruh aplikasi
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
